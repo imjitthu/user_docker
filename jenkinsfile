@@ -9,7 +9,7 @@ pipeline {
 
     stages {
         
-        stage ('Build DKIM User') {
+        stage ('Build DKIM user') {
             when {
                 triggeredBy 'github'
                  }
@@ -20,7 +20,7 @@ pipeline {
                 '''
                 }
                 }
-        stage ('Push DKIM User') {
+        stage ('Push DKIM user') {
             when {
                 triggeredBy 'github'
                  }
@@ -36,40 +36,16 @@ pipeline {
               }
         stage ('Create POD with KubeCTL') {
             when {
-                //triggeredBy user
-                triggeredBy cause: "UserIdCause", detail: "jithendar"
+                triggeredBy 'user'
                  }
             steps {
-                echo "Creating POD with KubeCTL"
+                sh 'kubectl apply -f pod.yml'
                 }
                 }
             }
-
     post {
         always { 
             cleanWs()
         }
      }
 }
-
-
-
-// when {
-//     anyOf {
-//         triggeredBy cause: 'UpstreamCause', detail: 'Job A'
-//         triggeredBy cause: 'UpstreamCause', detail: 'Job C'
-//     }
-// }
-
-
-// triggeredBy
-
-// Execute the stage when the current build has been triggered by the param given. For example:
-
-// when { triggeredBy 'SCMTrigger' }
-
-// when { triggeredBy 'TimerTrigger' }
-
-// when { triggeredBy 'UpstreamCause' }
-
-// when { triggeredBy cause: "UserIdCause", detail: "vlinde" }
