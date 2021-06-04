@@ -36,8 +36,8 @@ pipeline {
               }
         stage ('Create POD with KubeCTL') {
             when {
-                triggeredBy user
-                //triggeredBy cause: "UserIdCause", detail: "jithendar"
+                //triggeredBy user
+                triggeredBy cause: "UserIdCause", detail: "jithendar"
                  }
             steps {
                 echo "Creating POD with KubeCTL"
